@@ -41,7 +41,6 @@ class Basket
             $total += $product->price * $quantity;
             $productCounts[$productCode] = $quantity;
         }
-
         foreach ($this->offers as $offer) {
             $total -= $offer->apply($productCounts);
         }
@@ -52,6 +51,9 @@ class Basket
 
     protected function getDeliveryCharge($total)
     {
+        if(empty($this->products)){
+            return 0;
+        }
         foreach ($this->deliveryCharges as $threshold => $charge) {
             if ($total < $threshold) {
                 return $charge;
